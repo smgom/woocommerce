@@ -217,7 +217,7 @@ function woocommerce_payfort() {
                     $error_msg = __('Please make sure your card details have been entered correctly.', 'woocommerce');
                     throw new Start_Error($error_msg);
                 }
-                $charge_description = $order->id . ": WooCommerce charge for " . $order->billing_email;
+                $charge_description = $order->id . ": Charge for " . $order->billing_email;
                 $order_items = $order->get_items();
                 $order_items_array_full = array();
                 $user_info = wp_get_current_user();
