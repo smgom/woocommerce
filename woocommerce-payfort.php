@@ -43,7 +43,8 @@ function woocommerce_payfort() {
             $this->live_secret_key = $this->get_option('live_secret_key');
             $this->description = $this->get_option('description');
             $this->test_mode = $this->get_option('test_mode');
-            $this->currency_multiplier = json_decode(file_get_contents(plugins_url('payfort/assets/currencies.json')), true);
+            $this->currency_multiplier = json_decode(file_get_contents(plugin_dir_path(__FILE__) . 'assets/currencies.json'), true);
+
             // Logs
             if (isset($this->debug) && $this->debug == 'yes') {
                 $this->log = $woocommerce->logger();
