@@ -1,36 +1,13 @@
-<?php
-/*
-Plugin Name: Payfort (Start)
-Description: Payfort makes it really easy to start accepting online payments (credit &amp; debit cards) in the Middle East. Sign up is instant, at https://start.payfort.com/
-Version: 0.1.10
-Plugin URI: https://start.payfort.com
-Author: Payfort
-Author URI: https://start.payfort.com
-License: Under GPL2
-*/
-require plugin_dir_path(__FILE__) . 'vendor/payfort/start/Start.php';
-if (!defined('ABSPATH'))
-    exit; // Exit if accessed directly
-    /* Enable automatic updates to this plugin
-      ----------------------------------------------------------- */
-add_filter('auto_update_plugin', '__return_true');
-/* Add a custom payment class to WC
-  ------------------------------------------------------------ */
-add_action('plugins_loaded', 'woocommerce_payfort', 0);
+ <?php
 
-function woocommerce_payfort() {
-    if (!class_exists('WC_Payment_Gateway'))
-        return; // if the WC payment gateway class is not available, do nothing
-    if (class_exists('WC_Gateway_Payfort'))
-        return;
-
-    class WC_Gateway_Payfort extends WC_Payment_Gateway {
-
+if(!class_exists('WC_Gateway_Payfort')) {
+ class WC_Gateway_Payfort extends WC_Payment_Gateway {
+ 
         public function __construct() {
-            $plugin_dir = plugin_dir_url(__FILE__);
             global $woocommerce;
+            require_once WOO_PAYFORT_DIR . '/inc/vendor/payfort/start/Start.php';
             $this->id = 'payfort';
-            $this->icon = apply_filters('woocommerce_white_icon', '' . $plugin_dir . 'white-cards.png');
+            $this->icon = apply_filters('woocommerce_white_icon', '' . WOO_PAYFORT_DIR . '/assets/images/white-cards.png');
             $this->has_fields = true;
             // Load the settings
             $this->init_form_fields();
@@ -43,7 +20,7 @@ function woocommerce_payfort() {
             $this->live_secret_key = $this->get_option('live_secret_key');
             $this->description = $this->get_option('description');
             $this->test_mode = $this->get_option('test_mode');
-            $this->currency_multiplier = json_decode(file_get_contents(plugin_dir_path(__FILE__) . 'assets/currencies.json'), true);
+            $this->currency_multiplier = json_decode(file_get_contents(WOO_PAYFORT_DIR . 'assets/currencies.json'), true);
 
             // Logs
             if (isset($this->debug) && $this->debug == 'yes') {
@@ -321,14 +298,5 @@ function woocommerce_payfort() {
         }
 
     }
-
-    /**
-     * Add the gateway to WooCommerce
-     * */
-    function add_payfort_gateway($methods) {
-        $methods[] = 'WC_Gateway_Payfort';
-        return $methods;
-    }
-
-    add_filter('woocommerce_payment_gateways', 'add_payfort_gateway');
 }
+new WC_Gateway_Payfort();

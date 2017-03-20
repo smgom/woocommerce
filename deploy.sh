@@ -5,7 +5,7 @@
 # main config
 PLUGINSLUG="payfort"
 CURRENTDIR=`pwd`
-MAINFILE="woocommerce-payfort.php" # this should be the name of your main php file in the wordpress plugin
+MAINFILE="woo-payfort.php" # this should be the name of your main php file in the wordpress plugin
 
 # git config
 GITPATH="$CURRENTDIR/" # this file should be in the base of your git repository
