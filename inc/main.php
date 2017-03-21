@@ -1,7 +1,8 @@
 <?php
+
 if(!class_exists('WC_Gateway_Payfort')) {
  class WC_Gateway_Payfort extends WC_Payment_Gateway {
-         public function __construct() {
+       public function __construct() {
             global $woocommerce;
             require_once WOO_PAYFORT_DIR . '/inc/vendor/payfort/start/Start.php';
             $this->id = 'payfort';
